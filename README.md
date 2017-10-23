@@ -1,10 +1,11 @@
-## Global HotKeys for Go (for Windows)
+## Global HotKeys
 
 ---
 
 ### About hotkeys
 
-- Use hotkeys to set and listen for global hotkey events (for Windows).
+- Use hotkeys to set and listen for global hotkey events.
+- Works only for Windows.
 
 ---
 
@@ -16,23 +17,23 @@
 package main
 
 import (
-	"fmt"
-	"github.com/jeet-parekh/hotkeys"
+    "fmt"
+    "github.com/jeet-parekh/hotkeys"
 )
 
 func main() {
-	hks := hotkeys.NewHotKeys(4)
-	hotkeyMessages := hks.GetMessageChannel()
-	hks.RegisterHotKey(1, hotkeys.MOD_ALT, hotkeys.VK_A)
-	hks.RegisterHotKey(2, hotkeys.MOD_ALT, hotkeys.VK_B)
-	hks.Start()
+    hks := hotkeys.NewHotKeys(4)
+    hotkeyEvents := hks.GetMessageChannel()
+    hks.RegisterHotKey(1, hotkeys.MOD_ALT, hotkeys.VK_A)
+    hks.RegisterHotKey(2, hotkeys.MOD_ALT, hotkeys.VK_B)
+    hks.Start()
 
-	for i := 0; i < 10; i+=1 {
-		fmt.Printf("%+v\n", (<- hotkeyMessages).ID)
-	}
+    for i := 0; i < 10; i+=1 {
+        fmt.Printf("%+v\n", (<- hotkeyEvents).ID)
+    }
 
-	hks.Stop()
-	hks.UnregisterAllHotKeys()
+    hks.Stop()
+    hks.UnregisterAllHotKeys()
 }
 ```
 
