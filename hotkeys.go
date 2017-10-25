@@ -1,7 +1,6 @@
 package hotkeys
 
 import (
-	"errors"
 	"github.com/jeet-parekh/winapi"
 )
 
@@ -49,6 +48,14 @@ func (hks *HotKeys) GetRegisteredHotKeys() map[uintptr]*HotKey {
 	return hks.registeredHotKeys
 }
 
+// IsIDRegistered returns a boolean indicating whether or not a hotkey with the given ID is registered.
+func (hks *HotKeys) IsIDRegistered(id uintptr) bool {
+	if hks.registeredHotKeys[id] == nil {
+		return false
+	}
+	return true
+}
+
 // RegisterHotKey registers a hotkey.
 // First parameter is the ID of the hotkey.
 // Second parameter is the modifier keys of the hotkey. They are the keys that must be pressed in combination with the key specified by the third parameter in order to activate the hotkey.
@@ -69,14 +76,12 @@ func (hks *HotKeys) RegisterHotKey(id uintptr, modifierKeys uintptr, virtualKeyC
 
 // UnregisterHotKey unregisters a hotkey by its ID.
 func (hks *HotKeys) UnregisterHotKey(id uintptr) error {
-	if hks.registeredHotKeys[id] != nil {
+	if hks.IsIDRegistered(id) {
 		_, err := winapi.UnregisterHotKey(0, id)
 		if err.Error() != _SUCCESS {
 			return err
 		}
 		delete(hks.registeredHotKeys, id)
-	} else {
-		return errors.New("hotkey with ID " + string(id) + " is not registered")
 	}
 	return nil
 }
