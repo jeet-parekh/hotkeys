@@ -2,10 +2,11 @@
 
 ---
 
-### About hotkeys
+### About `hotkeys`
 
-- Use hotkeys to set and listen for global hotkey events.
+- Use `hotkeys` to set and listen for global hotkey events.
 - Works only for Windows.
+- [Documentation: godoc](https://godoc.org/github.com/jeet-parekh/hotkeys)
 
 ---
 
